@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  #backend service
+  backend:
+    build: ./backend
+    container_name: notekeeper-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+    restart: always
+    networks:
+      - notekeeper-network
+
+  frontend:
+    build: ./frontend
+    container_name: notekeeper-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - notekeeper-network
+
+networks:
+  notekeeper-network:
+    driver: bridge
